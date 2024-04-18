@@ -1,0 +1,86 @@
+.search_container {
+  background-image: url("../../assets/image/dainoi.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  padding: 50px 0px 60px 0px;
+  min-width: 1200px;
+  min-height: 450px;
+  ///
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  p {
+    color: white;
+    font-size: 72px;
+    font-weight: 700;
+  }
+}
+
+.search_top {
+  display: flex;
+  margin-top: 120px;
+  background-color: transparent;
+
+  button {
+    width: 160px;
+    height: 52px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #ccc;
+    font-size: 26px;
+    margin-right: 8px;
+  }
+}
+
+.search_bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  width: 1200px;
+  height: 80px;
+}
+
+.search_box {
+  display: none;
+}
+
+.search_box.active {
+  display: block; /* Hiển thị phần tử khi có lớp active */
+}
+
+.search_box_css {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #333;
+  width: 1100px;
+  height: 60px;
+
+  input {
+    height: 40px;
+    min-width: calc(1100px - 240px);
+    margin-right: 20px;
+    border: none;
+    font-size: 22px;
+  }
+  button {
+    width: 160px;
+    margin-right: 10px;
+  }
+}
+
+.search_box_icon {
+  width: 50px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+.search_bottom:active {
+  display: block;
+  background-color: #fff;
+}
