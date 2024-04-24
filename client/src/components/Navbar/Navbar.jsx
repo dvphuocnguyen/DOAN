@@ -24,12 +24,20 @@ const Navbar = () => {
           </div>
           <div className="nav_auth">
             {/* <button className="btn auth_btn">Đăng kí</button> */}
-            <ul>
-              <li>
-                <Link to="/register">Đăng kí</Link>
+            <ul className="nav_auth_list">
+              <li className="nav_auth_item">
+                <button className="btn ">
+                  <Link className="auth_btn" to="/register">
+                    Đăng kí
+                  </Link>
+                </button>
               </li>
-              <li>
-                <Link to="/login">Đăng nhập</Link>
+              <li className="nav_auth_item">
+                <button className="btn ">
+                  <Link className="auth_btn" to="/login">
+                    Đăng nhập
+                  </Link>
+                </button>
               </li>
             </ul>
           </div>

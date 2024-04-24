@@ -1,0 +1,32 @@
+.list_service {
+  height: 300px;
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+}
+.service_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+  padding: 0;
+}
+.service_icon {
+  font-size: 72px;
+  color: #f23060;
+  width: 80px;
+  align-self: center;
+  height: 80px;
+  width: auto;
+}
+.service_name {
+  font-size: 32px;
+  font-weight: 500;
+}
+.service_desc {
+  padding: 10px 20px;
+  font-weight: 500;
+  font-size: 16px;
+  height: 40px;
+}
