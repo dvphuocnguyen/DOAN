@@ -3,7 +3,7 @@ const express = require("express");
 const router = express();
 const auth = require("../middlewares/authMiddlerwares");
 const permissionController = require("../controllers/admin/permissionController");
-
+const addPlaceController = require("../controllers/admin/placeController");
 const { onlyAdminAccess } = require("../middlewares/adminMiddlerware");
 
 const {
@@ -11,6 +11,7 @@ const {
   permissionDeleteValidator,
   permissionUpdateValidator,
 } = require("../helplers/adminValidator");
+
 
 router.post(
   "/add-permission",

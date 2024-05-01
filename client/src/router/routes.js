@@ -8,9 +8,9 @@ const routes = () => {
   return (
     <Routes>
         {/* <Route path="/" /> */}
-        <Route path="order" element={<Order />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
+        <Route path="/order" element={<Order />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
     </Routes>
   );
 };

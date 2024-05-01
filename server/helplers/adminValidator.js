@@ -15,3 +15,14 @@ exports.permissionUpdateValidator = [
 exports.categoryAddValidator = [
   check("category_name", "category_name  is required").not().isEmpty(),
 ];
+exports.categoryDeleteValidator = [
+  check("id", "id is required").not().isEmpty(),
+];
+exports.categoryUpdateValidator = [
+  check("id", "id is required").not().isEmpty(),
+  check("category_name", "category_name is required").not().isEmpty(),
+];
+//
+exports.placeAddValidator = [
+  check("place_name", "place_name is required").not().isEmpty(),
+];

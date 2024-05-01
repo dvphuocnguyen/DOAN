@@ -1,3 +1,9 @@
+.ui_container {
+  width: 1128px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .list_service {
   height: 300px;
   margin: 0;
@@ -13,20 +19,180 @@
   padding: 0;
 }
 .service_icon {
-  font-size: 72px;
   color: #f23060;
-  width: 80px;
   align-self: center;
-  height: 80px;
+  height: 46px;
   width: auto;
 }
 .service_name {
-  font-size: 32px;
-  font-weight: 500;
+  font-size: 26px;
+  font-weight: 400;
 }
 .service_desc {
   padding: 10px 20px;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 400;
+  font-size: 14px;
   height: 40px;
+}
+
+//
+.plan_collection {
+  width: 1128px;
+  margin-bottom: 4rem;
+}
+
+.section_header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+.plan-collection-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+.section_name {
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+}
+.plan-collection-body {
+  // background-color: azure;
+  width: 1127px;
+  display: flex;
+  justify-content: space-around;
+}
+.plan-collection-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border: 1px solid rgba(182, 182, 182, 0.5);
+  border-radius: 8px;
+}
+.plan_card {
+  position: relative;
+  border-radius: 8px;
+}
+.plan_img_css {
+  object-fit: cover;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+.plan_day {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2px 6px 2px 6px;
+  font-size: 14px;
+  color: #212121;
+  border-radius: 10px;
+}
+
+.plan_card_name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+}
+.plan_card_desc {
+  width: 94%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.left_card_desc {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 60%;
+  font-size: small;
+  img {
+    width: 2em;
+    height: 2em;
+    border-radius: 500rem;
+    margin-right: 10px;
+  }
+}
+.user_img {
+  margin-right: 10px;
+}
+.right_card_desc {
+  display: flex;
+  font-size: 16px;
+  color: #ff3366;
+}
+.plan_card_name {
+  position: relative; /* Thiết lập phần tử cha là relative để có thể định vị pseudo-element */
+}
+.plan_card_name::after {
+  content: ""; /* Đặt nội dung của pseudo-element là trống */
+  position: absolute; /* Đặt phần tử pseudo-element là absolute để có thể định vị tuyệt đối */
+  bottom: -1.5px; /* Đặt phần tử pseudo-element bắt đầu từ phía dưới của phần tử cha */
+  left: 0; /* Đặt phần tử pseudo-element bắt đầu từ bên trái của phần tử cha */
+  width: 100%; /* Đặt chiều rộng của phần tử pseudo-element là 100% để nó trải dài ra toàn bộ chiều rộng của phần tử cha */
+  height: 0.1px; /* Đặt chiều cao của phần tử pseudo-element là 1px để tạo ra gạch ngang */
+  background-color: rgb(193, 193, 193); /* Màu sắc của gạch ngang */
+}
+
+//
+
+.places_section {
+  width: 100%;
+  white-space: nowrap;
+  margin: -1rem;
+  padding: 1rem;
+  overflow: hidden;
+  margin-bottom: 4rem !important;
+}
+.section_body {
+  display: flex;
+  justify-content: space-between;
+}
+.card_place {
+  width: 270px;
+}
+.info_name {
+  color: black !important;
+  text-decoration: none;
+}
+.card_place_info {
+  display: flex;
+  flex-direction: column;
+}
+
+.info_desc {
+  opacity: 0.7;
+  font-size: 13px;
+  line-height: 0.8rem;
+}
+
+//
+.combo_section {
+  width: 100%;
+  white-space: nowrap;
+  margin: -1rem;
+  padding: 1rem;
+  overflow: hidden;
+  margin-bottom: 4rem !important;
+}
+//
+
+.value_smatra {
+  margin: 0 10px;
+}
+.value_container{
+  h4{
+    font-weight: 500;
+  }
+
+  p{
+    font-size: 14px;
+  }
 }

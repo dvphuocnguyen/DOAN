@@ -1,6 +1,6 @@
 import "./App.css";
 // import Test from "./components/Test/Test";
-import Home from "./components/Home/Home";
+import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";

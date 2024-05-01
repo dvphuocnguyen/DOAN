@@ -13,7 +13,7 @@
   justify-content: center;
   p {
     color: white;
-    font-size: 72px;
+    font-size: 56px;
     font-weight: 700;
   }
 }
@@ -26,12 +26,19 @@
   button {
     width: 160px;
     height: 52px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    background-color: #ccc;
-    font-size: 26px;
+    border: 0.1px solid transparent;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: #f0f0f0;
+    font-size: 20px;
     margin-right: 8px;
+    cursor: pointer;
   }
+}
+
+.tab-button:focus{
+  color: red;
+  background-color: #fff;
 }
 
 .search_bottom {
@@ -40,7 +47,7 @@
   justify-content: center;
   background-color: #fff;
   width: 1200px;
-  height: 80px;
+  height: 60px;
 }
 
 .search_box {
@@ -57,19 +64,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid #333;
+  border: 0.2px solid #dbcece;
   width: 1100px;
-  height: 60px;
+  height: 44px;
 
   input {
     height: 40px;
     min-width: calc(1100px - 240px);
     margin-right: 20px;
     border: none;
-    font-size: 22px;
+    font-size: 18px;
   }
+  input:focus {
+    outline: none;
+  }
+
   button {
-    width: 160px;
+    width: 16 0px;
     margin-right: 10px;
   }
 }

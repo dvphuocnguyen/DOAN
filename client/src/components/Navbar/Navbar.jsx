@@ -1,12 +1,35 @@
-// eslint-disable-next-line no-unused-vars
-import React from "react";
 import { Link } from "react-router-dom";
-import "./Navbar.scss";
 import { FaSuitcase } from "react-icons/fa";
 import { GiNotebook } from "react-icons/gi";
-import { BiDotsHorizontalRounded } from "react-icons/bi";
-
+import BottomNavbar from "./bottomNavbar";
+import axios from "axios";
+import { useAuth } from "../../context/authContext";
 const Navbar = () => {
+  const { user, logout } = useAuth(); // Lấy thông tin người dùng từ context
+  const handleLogout = () => {
+    logout(); // Đăng xuất người dùng
+  };
+
+  const handleGetUser = async () => {
+    const token = user.accessToken;
+    try {
+      const response = await axios.get("http://localhost:3001/api/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("User profile:", response.data);
+      return response.data; // Trả về thông tin người dùng
+    } catch (error) {
+      console.error(
+        "Error fetching user profile:",
+        error.response.data.message
+      );
+      throw error; // Xử lý lỗi nếu cần
+    }
+  };
+
+  console.log(user);
   return (
     <>
       <div className="nav_container">
@@ -22,39 +45,39 @@ const Navbar = () => {
               Lịch trình của tôi
             </p>
           </div>
-          <div className="nav_auth">
-            {/* <button className="btn auth_btn">Đăng kí</button> */}
-            <ul className="nav_auth_list">
-              <li className="nav_auth_item">
-                <button className="btn ">
-                  <Link className="auth_btn" to="/register">
-                    Đăng kí
-                  </Link>
-                </button>
-              </li>
-              <li className="nav_auth_item">
-                <button className="btn ">
-                  <Link className="auth_btn" to="/login">
-                    Đăng nhập
-                  </Link>
-                </button>
-              </li>
-            </ul>
-          </div>
+          {user ? ( // Kiểm tra xem người dùng đã đăng nhập hay chưa
+            <div className="logged_area">
+              <span>{user.data.name}</span> {/* Hiển thị tên người dùng */}
+              <button className="btn" onClick={handleGetUser}>
+                getUser
+              </button>
+              <button className="btn" onClick={handleLogout}>
+                Đăng xuất
+              </button>
+            </div>
+          ) : (
+            <div className="nav_auth">
+              <ul className="nav_auth_list">
+                <li className="nav_auth_item">
+                  <button className="btn ">
+                    <Link className="auth_btn" to="/register">
+                      Đăng kí
+                    </Link>
+                  </button>
+                </li>
+                <li className="nav_auth_item">
+                  <button className="btn ">
+                    <Link className="auth_btn" to="/login">
+                      Đăng nhập
+                    </Link>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
-      <div className="bottom_nav">
-        <ul className="bottom_nav_list">
-          <li className="bottom_nav_item">Điểm đến </li>
-          <li className="bottom_nav_item">Lịch trình</li>
-          <li className="bottom_nav_item">Khách sạn</li>
-          <li className="bottom_nav_item">Nhà Hàng</li>
-          <li className="bottom_nav_item">Tham Quan</li>
-          <li className="bottom_nav_item">
-            <BiDotsHorizontalRounded />
-          </li>
-        </ul>
-      </div>
+      <BottomNavbar />
     </>
   );
 };

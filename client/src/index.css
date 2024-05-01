@@ -56,28 +56,33 @@ button:focus-visible {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-} 
+  --auth-background: rgba(242, 48, 96,0.01);
+}
 
 .btn {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 0.4em 1.2em;
   font-size: 1em;
-  font-weight: 500;
+  font-weight: 400;
   font-family: inherit;
-  background-color: #F23060;
+  background-color: #f23060;
   color: white;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 
-button{
+button {
   border: none;
   padding: 0;
   margin: 0;
 }
 
-p{
+p {
   margin: 0;
   padding: 0;
+}
+a {
+  color: #3897f1;
+  text-decoration: none;
 }
