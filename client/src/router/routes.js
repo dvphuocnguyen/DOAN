@@ -1,17 +1,22 @@
 // import React from "react";
-import { Routes, Route } from "react-router-dom";
+"client"
+import { Routes, Route, Router } from "react-router-dom";
 
 import Order from "../pages/Order/Order";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
+import Place from "../pages/Place/Place";
 const routes = () => {
   return (
-    <Routes>
+    <Router>
+      <Routes>
         {/* <Route path="/" /> */}
         <Route path="/order" element={<Order />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-    </Routes>
+        <Route path="/place" element={<Place />} />
+      </Routes>
+    </Router>
   );
 };
 

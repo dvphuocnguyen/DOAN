@@ -1,7 +1,10 @@
-import { useEffect } from "react";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { useState, useEffect } from "react";
 import "../Search/SearchService.scss";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import axios from 'axios';
+
 const SearchService = () => {
+  //click button-> form
   useEffect(() => {
     const tabButtons = document.querySelectorAll(".tab-button");
     const tabContents = document.querySelectorAll(".search_box");
@@ -23,7 +26,32 @@ const SearchService = () => {
       });
     }
   }, []); // Passing an empty dependency array means this effect will run once after the component mounts
+//
+const [searchTerm, setSearchTerm] = useState("");
+const [searchResults, setSearchResults] = useState([]);
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/api/get-allPlace`);
+      setSearchResults(response.data.data);
+    } catch (error) {
+      console.error('Error fetching places:', error);
+    }
+  };
 
+  fetchData();
+}, [searchTerm]);
+
+const handleInputChange = (event) => {
+  setSearchTerm(event.target.value);
+};
+
+
+
+
+
+
+//
   return (
     <>
       <div className="search_container">
@@ -46,10 +74,22 @@ const SearchService = () => {
             <div className="search_box active" id="plan">
               <div className="search_box_css">
                 <FaMapMarkerAlt className="search_box_icon" />
-                <input type="text" placeholder="Bạn muốn đi đâu?" />
+                <input type="text" placeholder="Bạn muốn đi đâu?"  onChange={handleInputChange}/>
                 <button className="btn">Lên lịch trình</button>
               </div>
             </div>
+            {/* aaa */}
+            <div className="search_results">
+              {searchResults.map(place => (
+                <div key={place._id} className="search_result_item">
+                  <h3>{place.place_name}</h3>
+                  <p>{place.description}</p>
+                  <p>{place.address}</p>
+                  <p>{place.cost}</p>
+                </div>
+              ))}
+            </div>
+            {/* aaa */}
             <div className="search_box " id="hotel">
               <div className="search_box_css">
                 <FaMapMarkerAlt className="search_box_icon" />

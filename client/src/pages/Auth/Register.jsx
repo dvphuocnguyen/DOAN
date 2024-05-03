@@ -1,33 +1,45 @@
 import "./Register.scss";
-
-//
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { TiStarburst } from "react-icons/ti";
+import { useAuth } from "../../context/AuthContext";
 
-//
 const Register = () => {
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
   });
+  const navigate = useNavigate(); // Use useNavigate hook
+  const { register } = useAuth();
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
   };
-
   const registerSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
+    console.log("Data to be sent:", user); // Hiển thị dữ liệu gửi đi từ client
     try {
-      await axios.post("http://localhost:3001/api/register", { ...user });
+      const response = await axios.post("http://localhost:3001/api/register", {
+        ...user,
+      });
+      console.log("doing register");
+      const userData = response.data; // Dữ liệu người dùng trả về từ server khi đăng ký
+      console.log("33", userData);
+      register(userData); // Lưu thông tin người dùng vào trạng thái
+      console.log("35", userData);
+
       localStorage.setItem("firstLogin", true);
-      window.location.href = "/";
+      navigate("/"); // Chuyển hướng đến trang dashboard sau khi đăng nhập thành công
     } catch (err) {
-      alert(err.msg);
+      if (err.response) {
+        console.log("error register", err.response.data.message);
+      }
     }
   };
 
@@ -35,7 +47,7 @@ const Register = () => {
     <div className="auth_page">
       <div className="register_form_container">
         <div className="top_register_form">
-          logo
+          {/* Thêm logo */}
           <h3>Đăng ký</h3>
           <p>Trở thành thành viên của Smatra</p>
         </div>

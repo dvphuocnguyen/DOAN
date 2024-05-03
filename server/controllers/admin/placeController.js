@@ -1,5 +1,6 @@
 const Place = require("../../models/placeModel");
 const { validationResult } = require("express-validator");
+const mongoose = require('mongoose');
 
 // Get all places
 exports.getAllPlaces = async (req, res) => {
@@ -16,22 +17,65 @@ exports.getAllPlaces = async (req, res) => {
     });
   }
 };
-
-// Get single place by ID
+exports.searchPlaces = async (req, res) => {
+  try {
+    const { searchTerm } = req.query;
+    const places = await Place.find({
+      $or: [
+        { place_name: { $regex: searchTerm, $options: 'i' } }, // Tìm kiếm theo tên địa điểm
+        { description: { $regex: searchTerm, $options: 'i' } }, // Tìm kiếm theo mô tả
+        { address: { $regex: searchTerm, $options: 'i' } }, // Tìm kiếm theo địa chỉ
+      ]
+    });
+    res.status(200).json({
+      success: true,
+      data: places,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+// Get single place by IDconst { validationResult } = require('express-validator');
 exports.getPlaceById = async (req, res) => {
   try {
-    const place = await Place.findById(req.params.id);
-    if (!place) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation error",
+        errors: errors.array(),
+      });
+    }
+
+    const { id } = req.params; // Lấy id từ tham số của URL
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid ObjectId",
+      });
+    }
+
+    const placeData = await Place.findOne({ _id: id });
+
+    if (!placeData) {
       return res.status(404).json({
         success: false,
         message: "Place not found",
       });
     }
+
     res.status(200).json({
       success: true,
-      data: place,
+      data: placeData,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: "Server error",
@@ -42,7 +86,7 @@ exports.getPlaceById = async (req, res) => {
 // Create a new place
 exports.createPlace = async (req, res) => {
   try {
-    const errors = validationResult(req);
+    const errors = validationResult(req, res);
 
     if (!errors.isEmpty()) {
       return res.status(200).json({
@@ -51,9 +95,12 @@ exports.createPlace = async (req, res) => {
         errors: errors.array(),
       });
     }
+
+    const { place_name, description, address, cost } = req.body;
+
     const isExists = await Place.findOne({
       place_name: {
-        $regex: permission_name,
+        $regex: place_name,
         $options: "i",
       },
     });
@@ -64,8 +111,14 @@ exports.createPlace = async (req, res) => {
         msg: "Places already exists",
       });
     }
-    const place = new Place(obj);
+    const place = new Place({
+      place_name: place_name,
+      description: description,
+      address: address,
+      cost: cost,
+    });
     const newPlace = await place.save();
+
     res.status(201).json({
       success: true,
       data: newPlace,
@@ -73,7 +126,7 @@ exports.createPlace = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Server error place",
+      message: error.message,
     });
   }
 };

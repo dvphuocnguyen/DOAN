@@ -2,8 +2,6 @@ import { createContext, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 
-
-
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -12,7 +10,8 @@ export const AuthProvider = ({ children }) => {
   const login = (userData) => {
     // Cập nhật thông tin người dùng khi đăng nhập thành công
     setUser(userData);
-    console.log(user)
+    console.log(user);
+    console.log("authcontext", userData);
   };
 
   const logout = () => {
@@ -20,12 +19,19 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const register = (userData) => {
+    // Xử lý quá trình đăng ký người dùng mới
+    // Ví dụ: lưu thông tin người dùng vào cơ sở dữ liệu
+    // Sau khi đăng ký thành công, có thể tự động đăng nhập người dùng
+    login(userData);
+  };
+
   useEffect(() => {
-    console.log('aaa',user);
+    console.log("aaa context", user);
   }, [user]);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

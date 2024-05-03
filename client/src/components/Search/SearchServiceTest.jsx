@@ -1,6 +1,6 @@
 // import React, { useEffect } from "react";
-import { FaMapMarkerAlt } from "react-icons/fa";
 import "./SearchService.scss";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const SearchServiceTest = () => {
   const topBtns = document.querySelectorAll(".top_btn");

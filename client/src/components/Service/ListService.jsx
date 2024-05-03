@@ -6,7 +6,7 @@ import avatar from "../../assets/image/avatar_user.jpg";
 import bali_place from "../../assets/image/bali_popular_places.jpg";
 // icon
 
-import { TfiMapAlt } from "react-icons/tfi";
+import { TfiMapAlt } from 'react-icons/tfi';
 import { PiNotePencilLight } from "react-icons/pi";
 import { MdOutlineScreenShare } from "react-icons/md";
 import { PiTicket } from "react-icons/pi";

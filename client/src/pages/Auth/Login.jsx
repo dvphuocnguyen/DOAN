@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../../context/AuthContext";
+
+//
+
 import { TiStarburst } from "react-icons/ti";
-import { useAuth } from "../../context/authContext";
 
 const Login = () => {
   const [user, setUser] = useState({

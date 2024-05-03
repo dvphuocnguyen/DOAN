@@ -1,0 +1,64 @@
+.list_place_containter {
+  width: 1127px;
+  margin: auto;
+}
+
+.place_type {
+  width: 1127px;
+  height: 48px;
+  background-color: white;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: flex;
+}
+.place_type_item {
+  padding: 0;
+  margin: 0;
+  width: auto;
+  min-height: 24px;
+  display: flex;
+  flex: auto;
+  justify-content: center;
+  align-items: center;
+  // align-self: stretch;
+  padding: 1.2em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: aqua;
+}
+.place_list_container {
+  display: flex;
+}
+.place_list {
+  list-style: none;
+  width: 70%;
+}
+.map {
+  width: 30%;
+}
+.place_item {
+}
+
+.place_form {
+  display: flex;
+}
+.place_img {
+  height: 190px;
+  width: 250px;
+  overflow: hidden;
+}
+.place_info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: black;
+}
+.place_name{
+    margin: 0;
+}
+.place_address_map{
+    display: flex;
+    justify-content: space-between;
+}

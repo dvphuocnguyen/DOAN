@@ -8,7 +8,12 @@ const {
   categoryUpdateValidator,
 } = require("../helplers/adminValidator");
 const { placeAddValidator } = require("../helplers/adminValidator");
-const { createPlace } = require("../controllers/admin/placeController");
+const {
+  createPlace,
+  getAllPlaces,
+  getPlaceById,
+  searchPlaces,
+} = require("../controllers/admin/placeController");
 const categoryController = require("../controllers/categoryController");
 
 //category routes
@@ -37,4 +42,8 @@ router.post(
 
 /// place
 router.post("/create-place", placeAddValidator, createPlace);
+router.get("/get-place/:id", getPlaceById);
+router.get("/get-allPlace", getAllPlaces);
+router.get("/get-allPlace/search", searchPlaces);
+
 module.exports = router;

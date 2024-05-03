@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
-import { FaSuitcase } from "react-icons/fa";
-import { GiNotebook } from "react-icons/gi";
-import BottomNavbar from "./bottomNavbar";
+import BottomNavbar from "./BottomNavbar";
 import axios from "axios";
-import { useAuth } from "../../context/authContext";
+import { useAuth } from "../../context/AuthContext";
 const Navbar = () => {
   const { user, logout } = useAuth(); // Lấy thông tin người dùng từ context
   const handleLogout = () => {
@@ -37,11 +35,11 @@ const Navbar = () => {
         <div className="nav_right_1">
           <div className="nav_loged">
             <p className="nav_box nav_order">
-              <GiNotebook className="nav_box_icon" />
+              {/* <GiNotebook className="nav_box_icon" /> */}
               Đơn hàng của tôi
             </p>
             <p className="nav_box nav_plan">
-              <FaSuitcase className="nav_box_icon" />
+              {/* <FaSuitcase className="nav_box_icon" /> */}
               Lịch trình của tôi
             </p>
           </div>
