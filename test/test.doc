@@ -1,0 +1,13 @@
+'gg api 
+https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=c%C3%A0%20ph%C3%AA&location=16.0544068%2C108.2021667&radius=1500&type=cafe&key=AIzaSyDzvlM0b5VxuQFPx-Up-I9DINSHq33V7CI&fbclid=IwZXh0bgNhZW0CMTAAAR3glN2ehGO77qEKlaIfDIzkLO7L7s16RKlvAhRkJqZqs3FOPH3rB6BoZ1k_aem_Ab2msAXMMsjJ5QwVEelPFuZPUv4bzwUmOaVXXngT-R8glgq1ljN_9reVXHrDiZ6b0-7iY1qef0Suo0drKuGNKLYM
+'
+'
+AIzaSyDzvlM0b5VxuQFPx-Up-I9DINSHq33V7CI
+'
+//nature
+https://maps.googleapis.com/maps/api/place/textsearch/json?query=nature%20spots%20in%20danang&key=AIzaSyDzvlM0b5VxuQFPx-Up-I9DINSHq33V7CI
+
+//advance
+https://maps.googleapis.com/maps/api/place/textsearch/json?query=adventure%20activities%20in%20danang&key=AIzaSyDzvlM0b5VxuQFPx-Up-I9DINSHq33V7CI
+
+

@@ -1,6 +1,6 @@
 const Place = require("../../models/placeModel");
 const { validationResult } = require("express-validator");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Get all places
 exports.getAllPlaces = async (req, res) => {
@@ -22,10 +22,10 @@ exports.searchPlaces = async (req, res) => {
     const { searchTerm } = req.query;
     const places = await Place.find({
       $or: [
-        { place_name: { $regex: searchTerm, $options: 'i' } }, // Tìm kiếm theo tên địa điểm
-        { description: { $regex: searchTerm, $options: 'i' } }, // Tìm kiếm theo mô tả
-        { address: { $regex: searchTerm, $options: 'i' } }, // Tìm kiếm theo địa chỉ
-      ]
+        { place_name: { $regex: searchTerm, $options: "i" } }, // Tìm kiếm theo tên địa điểm
+        { description: { $regex: searchTerm, $options: "i" } }, // Tìm kiếm theo mô tả
+        { address: { $regex: searchTerm, $options: "i" } }, // Tìm kiếm theo địa chỉ
+      ],
     });
     res.status(200).json({
       success: true,
@@ -83,6 +83,46 @@ exports.getPlaceById = async (req, res) => {
   }
 };
 
+///get place by type
+exports.getPlacesByType = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation error",
+        errors: errors.array(),
+      });
+    }
+
+    const { placeType } = req.query; // Lấy type từ query parameters
+
+    // Query database to find places by type
+    const places = await Place.find({ placeType: { $in: [placeType] } }); // Sử dụng $in để kiểm tra loại có nằm trong mảng placeType hay không
+
+    if (!places || places.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No places found for the specified type",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: places,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+
+
 // Create a new place
 exports.createPlace = async (req, res) => {
   try {
@@ -96,7 +136,7 @@ exports.createPlace = async (req, res) => {
       });
     }
 
-    const { place_name, description, address, cost } = req.body;
+    const { place_name, description,address, cost, timeToLive, placeType, rating } = req.body;
 
     const isExists = await Place.findOne({
       place_name: {
@@ -116,6 +156,9 @@ exports.createPlace = async (req, res) => {
       description: description,
       address: address,
       cost: cost,
+      timeToLive: timeToLive,
+      placeType: placeType,
+      rating: rating,
     });
     const newPlace = await place.save();
 
@@ -177,3 +220,9 @@ exports.deletePlace = async (req, res) => {
     });
   }
 };
+
+
+//get distance place 
+exports.getDistance = async (req, res) => {
+  const place = await Place.findById(req.params.id);
+}

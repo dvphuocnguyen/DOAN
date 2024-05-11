@@ -1,0 +1,32 @@
+.plan_container {
+}
+.plan_schedule {
+    width: 400px !important;
+    display: inline-block;
+    height: 600px;
+    vertical-align: top;
+}
+.plan_day {
+  padding: 20px 10px;
+  background-color: aqua;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+.schedule_day {
+  font-size: 20px;
+  font-weight: 500;
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
+.schedule_day_item {
+  display: flex;
+  margin: 5px 5px 5px 35px;
+}
+.schedule_item_left{
+    margin-left: 20px;
+}
+
+.time_to_live{
+    font-size: 12px;
+}

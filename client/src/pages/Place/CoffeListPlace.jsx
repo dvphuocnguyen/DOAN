@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import "./ListPlace.scss";
+import axios from "axios";
 import place_img from "../../assets/image/tour_img_dn.png";
-import { MdPlace } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { MdPlace } from "react-icons/md";
 import Navbar from "../../components/Navbar/Navbar";
 
-const ListPlace = () => {
+const CoffeListPlace = () => {
   const [places, setPlaces] = useState([]);
+  const [type, setType] = useState("cafe"); // Mặc định type là "cafe"
 
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/api/get-allPlace"
+          `http://localhost:3001/api/get-places-by-type?placeType=${type}`
         );
         setPlaces(response.data.data);
       } catch (error) {
@@ -22,33 +23,20 @@ const ListPlace = () => {
     };
 
     fetchPlaces();
-  }, []);
+  }, [type]); // Gọi lại fetchPlaces khi type thay đổi
 
   return (
     <>
       <Navbar />
-      <div className="list_place_containter">
-        <div className="place_type">
-          <p className="place_type_item">Được đánh giá cao</p>
-          <Link to="/coffe_list" className="place_type_item">
-            Coffee
-          </Link>
-          <Link to="/entertainment_list" className="place_type_item">
-            Điểm tham quan
-          </Link>
-          <p className="place_type_item">Nhà Hàng</p>
-        </div>
-        <h1>List of Places</h1>
+      <div>
+        <h1>List of Coffe</h1>
         <div className="place_list_container">
           <ul className="place_list">
             {places.map((place) => (
               <li key={place._id} className="place_item">
                 <Link to={`/place/${place._id}`} className="place_form">
-                  {" "}
-                  {/* Change Link URL */}
                   <div className="place_img">
-                    <img src={place_img} alt="place" />{" "}
-                    {/* Add alt attribute */}
+                    <img src={place_img} alt="place" />
                   </div>
                   <div className="place_info">
                     <div className="place_name_desc">
@@ -61,7 +49,6 @@ const ListPlace = () => {
                     </div>
                   </div>
                 </Link>
-                {/* <p className="place_cost"> {place.cost}</p> */}
               </li>
             ))}
           </ul>
@@ -72,4 +59,4 @@ const ListPlace = () => {
   );
 };
 
-export default ListPlace;
+export default CoffeListPlace;

@@ -1,0 +1,50 @@
+.page_container {
+  background-color: whitesmoke;
+  margin: 0;
+}
+.place_item_container {
+  width: 800px;
+  background-color: #fff;
+  margin-left: 20px;
+}
+.place_info {
+  width: auto;
+  background-color: #fff;
+  padding: 20px 24px;
+}
+.place_name {
+  font-size: 22px;
+  font-weight: 500;
+}
+.place_item_name {
+  font-size: 22px;
+  margin-left: 28px;
+}
+.place_item_img {
+  display: block;
+  width: 660px;
+  height: auto;
+  margin-left: 50px;
+  margin-top: 4px;
+}
+.img_place {
+  margin: 10px;
+  max-width: 200px;
+  height: auto;
+}
+.place_address {
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.overview_top {
+  font-size: 26px;
+  margin-left: 28px;
+}
+
+.overview_content {
+    width: 800px;
+    background-color: #fff;
+    margin-left: 20px;
+    padding: 12px 10px 14px;
+}

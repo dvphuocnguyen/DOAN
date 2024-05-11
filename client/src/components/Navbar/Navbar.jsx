@@ -31,7 +31,9 @@ const Navbar = () => {
   return (
     <>
       <div className="nav_container">
-        <div className="nav_logo">logo</div>
+        <div className="nav_logo">
+          <Link to="/">Logo</Link>
+        </div>
         <div className="nav_right_1">
           <div className="nav_loged">
             <p className="nav_box nav_order">
@@ -47,7 +49,7 @@ const Navbar = () => {
             <div className="logged_area">
               <span>{user.data.name}</span> {/* Hiển thị tên người dùng */}
               <button className="btn" onClick={handleGetUser}>
-                getUser
+                User info 
               </button>
               <button className="btn" onClick={handleLogout}>
                 Đăng xuất

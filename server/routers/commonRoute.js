@@ -12,8 +12,13 @@ const {
   createPlace,
   getAllPlaces,
   getPlaceById,
+  getPlacesByType,
   searchPlaces,
 } = require("../controllers/admin/placeController");
+//
+const { createSchedule, getSchedule } = require("../controllers/common/schedule/scheduleController");
+
+//
 const categoryController = require("../controllers/categoryController");
 
 //category routes
@@ -43,7 +48,14 @@ router.post(
 /// place
 router.post("/create-place", placeAddValidator, createPlace);
 router.get("/get-place/:id", getPlaceById);
+router.get("/get-places-by-type", getPlacesByType);
 router.get("/get-allPlace", getAllPlaces);
 router.get("/get-allPlace/search", searchPlaces);
+
+
+//schedule
+router.post("/schedule", createSchedule);
+router.get("/getSchedule", getSchedule);
+
 
 module.exports = router;

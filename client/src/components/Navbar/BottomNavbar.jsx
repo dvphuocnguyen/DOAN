@@ -9,9 +9,15 @@ const BottomNavbar = () => {
     <div className="bottom_nav">
       <ul className="bottom_nav_list">
         <li className="bottom_nav_item">
-          <Link to="/list_place">Điểm đến</Link>
+          <Link className="nav_link" to="/list_place">
+            Điểm đến
+          </Link>
         </li>
-        <li className="bottom_nav_item">Lịch trình</li>
+        <li className="bottom_nav_item">
+          <Link className="nav_link" to="/plan">
+            Lịch trình
+          </Link>
+        </li>
         <li className="bottom_nav_item">Khách sạn</li>
         <li className="bottom_nav_item">Nhà Hàng</li>
         <li className="bottom_nav_item">Tham Quan</li>

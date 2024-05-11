@@ -79,7 +79,7 @@ const handleInputChange = (event) => {
               </div>
             </div>
             {/* aaa */}
-            <div className="search_results">
+            {/* <div className="search_results">
               {searchResults.map(place => (
                 <div key={place._id} className="search_result_item">
                   <h3>{place.place_name}</h3>
@@ -88,7 +88,7 @@ const handleInputChange = (event) => {
                   <p>{place.cost}</p>
                 </div>
               ))}
-            </div>
+            </div> */}
             {/* aaa */}
             <div className="search_box " id="hotel">
               <div className="search_box_css">

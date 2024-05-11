@@ -7,7 +7,7 @@ const placeSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
+    required: false,
   },
   address: {
     type: String,
@@ -19,19 +19,23 @@ const placeSchema = new mongoose.Schema({
   },
   timeToLive: {
     type: Number,
-    required: false,
+    required: true,
+  },
+  placeType: {
+    type: Array,
+    required: true,
   },
   img: {
     type: String,
     required: false,
   },
+  rating: {
+    type: Number,
+    required: false,
+  },
   event: {
     type: String,
     required: false,
-  },
-  partner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Partner",
   },
 });
 
