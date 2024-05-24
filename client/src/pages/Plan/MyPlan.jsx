@@ -32,7 +32,7 @@ const MyPlan = () => {
                 <li key={j}>
                   <p>Time: {activity.time}</p>
                   <p>Place: {activity.place_name}</p>
-                  <p>Time to Live: {activity.timeToLive}</p>
+                  <p>Time to Live: {activity.duration}</p>
                 </li>
               ))}
             </ul>

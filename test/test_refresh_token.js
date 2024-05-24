@@ -1,7 +1,6 @@
-import { createContext, useState, useEffect } from "react";
-import UserAPI from "./api/UserAPI";
+import React, { createContext, useState, useEffect } from "react";
+import UserAPI from "../api/UserAPI";
 import PropTypes from "prop-types";
-
 import axios from "axios";
 
 export const GlobalState = createContext();
@@ -14,9 +13,8 @@ export const DataProvider = ({ children }) => {
     if (firstLogin) {
       const refreshToken = async () => {
         const res = await axios.get("/user/refresh_token");
-
         setToken(res?.data?.accesstoken);
-        // console.log(res);
+        console.log(token, "refresh token");
 
         setTimeout(() => {
           refreshToken();
@@ -30,8 +28,10 @@ export const DataProvider = ({ children }) => {
     token: [token, setToken],
     userAPI: UserAPI(token),
   };
+
   DataProvider.propTypes = {
-    children: PropTypes.node.isRequired, // Kiểm tra kiểu của props children
+    children: PropTypes.node.isRequired,
   };
+
   return <GlobalState.Provider value={state}>{children}</GlobalState.Provider>;
 };

@@ -24,5 +24,10 @@ exports.categoryUpdateValidator = [
 ];
 //
 exports.placeAddValidator = [
-  check("place_name", "place_name is required").not().isEmpty(),
+  check("name", "place_name is required").not().isEmpty(),
+];
+
+//
+exports.partnerAddValidator = [
+  check("name", "place_name is required").not().isEmpty(),
 ];

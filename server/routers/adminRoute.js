@@ -5,14 +5,15 @@ const auth = require("../middlewares/authMiddlerwares");
 const permissionController = require("../controllers/admin/permissionController");
 const addPlaceController = require("../controllers/admin/placeController");
 const { onlyAdminAccess } = require("../middlewares/adminMiddlerware");
-
+const authAdmin = require("../controllers/admin/authAdmin")
 const {
   permissionAddValidator,
   permissionDeleteValidator,
   permissionUpdateValidator,
+  partnerAddValidator
 } = require("../helplers/adminValidator");
 
-
+const { createPartner } = require("../controllers/partner/partnerController");
 router.post(
   "/add-permission",
   auth,
@@ -39,6 +40,14 @@ router.post(
   onlyAdminAccess,
   permissionUpdateValidator,
   permissionController.updatePermission
+);
+/////
+router.post(
+  "/partner_register",
+  auth,
+  authAdmin,
+  partnerAddValidator,
+  createPartner
 );
 
 module.exports = router;

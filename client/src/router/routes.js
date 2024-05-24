@@ -1,7 +1,7 @@
 // import React from "react";
 "client"
 import { Routes, Route, Router } from "react-router-dom";
-
+import React from "react";
 import Order from "../pages/Order/Order";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";

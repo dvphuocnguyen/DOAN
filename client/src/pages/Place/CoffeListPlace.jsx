@@ -4,6 +4,8 @@ import axios from "axios";
 import place_img from "../../assets/image/tour_img_dn.png";
 import { Link } from "react-router-dom";
 import { MdPlace } from "react-icons/md";
+import Header from "../../components/Header/Header";
+import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 
 const CoffeListPlace = () => {
@@ -27,7 +29,8 @@ const CoffeListPlace = () => {
 
   return (
     <>
-      <Navbar />
+      <Header/>
+      <Navbar/>
       <div>
         <h1>List of Coffe</h1>
         <div className="place_list_container">

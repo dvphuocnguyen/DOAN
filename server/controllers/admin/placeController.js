@@ -22,7 +22,7 @@ exports.searchPlaces = async (req, res) => {
     const { searchTerm } = req.query;
     const places = await Place.find({
       $or: [
-        { place_name: { $regex: searchTerm, $options: "i" } }, // Tìm kiếm theo tên địa điểm
+        { name: { $regex: searchTerm, $options: "i" } }, // Tìm kiếm theo tên địa điểm
         { description: { $regex: searchTerm, $options: "i" } }, // Tìm kiếm theo mô tả
         { address: { $regex: searchTerm, $options: "i" } }, // Tìm kiếm theo địa chỉ
       ],
@@ -121,45 +121,76 @@ exports.getPlacesByType = async (req, res) => {
   }
 };
 
-
-
 // Create a new place
 exports.createPlace = async (req, res) => {
   try {
-    const errors = validationResult(req, res);
+    const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(200).json({
+      return res.status(400).json({
         success: false,
-        msg: "Có lỗi trong quá trình tạo place",
+        message: "Validation error",
         errors: errors.array(),
       });
     }
 
-    const { place_name, description,address, cost, timeToLive, placeType, rating } = req.body;
+    const {
+      name,
+      description,
+      address,
+      cost,
+      duration,
+      priority,
+      openingHours,
+      closingHours,
+      category,
+      rating,
+      city,
+      location,
+    } = req.body;
 
     const isExists = await Place.findOne({
-      place_name: {
-        $regex: place_name,
-        $options: "i",
+      name: {
+        $regex: new RegExp(name, "i"),
       },
     });
 
     if (isExists) {
       return res.status(400).json({
         success: false,
-        msg: "Places already exists",
+        message: "Place already exists",
       });
     }
+
+    if (
+      !location ||
+      !location.coordinates ||
+      location.coordinates.length !== 2
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid location format",
+      });
+    }
+
     const place = new Place({
-      place_name: place_name,
-      description: description,
-      address: address,
-      cost: cost,
-      timeToLive: timeToLive,
-      placeType: placeType,
-      rating: rating,
+      name,
+      description,
+      address,
+      cost,
+      duration,
+      priority,
+      openingHours,
+      closingHours,
+      category,
+      rating,
+      city,
+      location: {
+        type: "Point",
+        coordinates: location.coordinates,
+      },
     });
+
     const newPlace = await place.save();
 
     res.status(201).json({
@@ -221,8 +252,51 @@ exports.deletePlace = async (req, res) => {
   }
 };
 
+//get distance place
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371e3; // Bán kính của Trái đất tính bằng mét
+  const φ1 = (lat1 * Math.PI) / 180;
+  const φ2 = (lat2 * Math.PI) / 180;
+  const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+  const Δλ = ((lon2 - lon1) * Math.PI) / 180;
 
-//get distance place 
-exports.getDistance = async (req, res) => {
-  const place = await Place.findById(req.params.id);
+  const a =
+    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  const distance = R * c; // Khoảng cách tính bằng mét
+
+  return distance;
 }
+
+exports.getDistance = async (req, res) => {
+  try {
+    const { id1, id2 } = req.params;
+
+    const place1 = await Place.findById(id1);
+    const place2 = await Place.findById(id2);
+
+    if (!place1 || !place2) {
+      return res.status(404).json({
+        success: false,
+        message: "One or both places not found",
+      });
+    }
+
+    const [lon1, lat1] = place1.location.coordinates;
+    const [lon2, lat2] = place2.location.coordinates;
+
+    const distance = calculateDistance(lat1, lon1, lat2, lon2);
+
+    res.status(200).json({
+      success: true,
+      distance: distance, // Khoảng cách tính bằng mét
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

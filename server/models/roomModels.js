@@ -7,15 +7,20 @@ const roomSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
+    required: false,
   },
-  price: {
+  cost:{
     type: Number,
     required: true,
   },
-  partner: {
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Partner",
+    ref: "User",
+    required: true,
   },
 });
 

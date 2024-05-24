@@ -12,8 +12,9 @@ import CoffeListPlace from "./pages/Place/CoffeListPlace";
 import EntertainmentList from "./pages/Place/EntertainmentList";
 import Plan from "./pages/Plan/Plan";
 import MyPlan from "./pages/Plan/MyPlan";
-
-
+import ListHotel from "./pages/Hotel/ListHotel";
+import React from "react";
+import CreatePLace  from "./pages/Place/CreatePlace"
 //
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
       <Route path="/entertainment_list" element={<EntertainmentList />} />
       <Route path="/plan" element={<Plan />} />
       <Route path="/my_plan" element={<MyPlan />} />
-
+      <Route path="list_hotel" element={<ListHotel />} />
+      <Route path="create_place" element={<CreatePLace />} />
     </Routes>
   );
 }

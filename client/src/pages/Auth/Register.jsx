@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { TiStarburst } from "react-icons/ti";
 import { useAuth } from "../../context/AuthContext";
+import React from "react";
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -23,16 +24,14 @@ const Register = () => {
   };
   const registerSubmit = async (e) => {
     e.preventDefault();
-    console.log("Data to be sent:", user); // Hiển thị dữ liệu gửi đi từ client
+    // console.log("Data to be sent:", user); // Hiển thị dữ liệu gửi đi từ client
     try {
       const response = await axios.post("http://localhost:3001/api/register", {
         ...user,
       });
-      console.log("doing register");
       const userData = response.data; // Dữ liệu người dùng trả về từ server khi đăng ký
-      console.log("33", userData);
       register(userData); // Lưu thông tin người dùng vào trạng thái
-      console.log("35", userData);
+      // console.log("35", userData);
 
       localStorage.setItem("firstLogin", true);
       navigate("/"); // Chuyển hướng đến trang dashboard sau khi đăng nhập thành công

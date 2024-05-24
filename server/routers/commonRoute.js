@@ -14,9 +14,10 @@ const {
   getPlaceById,
   getPlacesByType,
   searchPlaces,
+  getDistance
 } = require("../controllers/admin/placeController");
 //
-const { createSchedule, getSchedule } = require("../controllers/common/schedule/scheduleController");
+const { createSchedule, getSchedule, createScheduleForDays } = require("../controllers/common/schedule/scheduleController");
 
 //
 const categoryController = require("../controllers/categoryController");
@@ -43,6 +44,7 @@ router.post(
   categoryController.updateCategory
 );
 
+const roomController = require("../controllers/common/room/roomController");
 ///
 
 /// place
@@ -51,11 +53,16 @@ router.get("/get-place/:id", getPlaceById);
 router.get("/get-places-by-type", getPlacesByType);
 router.get("/get-allPlace", getAllPlaces);
 router.get("/get-allPlace/search", searchPlaces);
-
+router.get('/distance/:id1/:id2', getDistance);
 
 //schedule
 router.post("/schedule", createSchedule);
 router.get("/getSchedule", getSchedule);
+router.post('/schedules/days', createScheduleForDays);
 
+///tesst getalluser
+
+///get room
+router.get("/get_all_room", roomController.getAllRooms);
 
 module.exports = router;

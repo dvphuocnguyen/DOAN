@@ -1,44 +1,56 @@
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
 
 const AuthContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // Trạng thái của người dùng
+  const [user, setUser] = useState(null);
 
   const login = (userData) => {
-    // Cập nhật thông tin người dùng khi đăng nhập thành công
     setUser(userData);
-    console.log(user);
-    console.log("authcontext", userData);
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const logout = () => {
-    // Xóa thông tin người dùng khi đăng xuất
     setUser(null);
   };
 
-  const register = (userData) => {
-    // Xử lý quá trình đăng ký người dùng mới
-    // Ví dụ: lưu thông tin người dùng vào cơ sở dữ liệu
-    // Sau khi đăng ký thành công, có thể tự động đăng nhập người dùng
-    login(userData);
+  const checkLoggedUser = () => {
+    if(user !== null){
+      console.log(user,'logged in');
+    }
   };
 
   useEffect(() => {
-    console.log("aaa context", user);
-  }, [user]);
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.error(
+          "Lỗi khi phân tích dữ liệu người dùng được lưu trữ:",
+          error
+        );
+        localStorage.removeItem("user"); // Xóa dữ liệu không hợp lệ
+      }
+    }
+  }, []);
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout, register }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = {
+    user,
+    login,
+    logout,
+    checkLoggedUser,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired, // Kiểm tra kiểu của props children
+  children: PropTypes.node.isRequired,
 };
-
-export const useAuth = () => useContext(AuthContext);

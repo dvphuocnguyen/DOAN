@@ -1,20 +1,17 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
-
-//
-
 import { TiStarburst } from "react-icons/ti";
-
 const Login = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Use useNavigate hook
-  const { user: loggedInUser, login } = useAuth(); // Lấy thông tin người dùng và hàm đăng nhập từ context
+  const navigate = useNavigate();
+  const { login, checkLoggedUser } = useAuth();
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -22,28 +19,41 @@ const Login = () => {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3001/api/login", {
-        ...user,
-      });
-      console.log(response.data)
-      const userData = response.data; // Dữ liệu người dùng trả về từ server
-      login(userData); // Lưu thông tin người dùng vào trạng thái
-      console.log('userdata: ' + userData)
-      navigate("/"); // Chuyển hướng đến trang dashboard sau khi đăng nhập thành công
+      const response = await axios.post(
+        "http://localhost:3001/api/login",
+        user
+      );
+      const userData = response.data;
+      login(userData);
+      console.log(userData);
+      ////
+      // const res = await axios.get("http://localhost:3001/api/refresh_token");
+      // setToken(res?.data?.accesstoken);
+      // console.log(state, "test state");
+      console.log(userData.accessToken)
+      // console.log(checkLoggedUser);
+      localStorage.setItem("firstLogin", true);
+      localStorage.setItem("accesstoken", userData.accessToken);
+
+      navigate("/");
+      window.location.reload();
     } catch (error) {
-      setError("Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin đăng nhập.");
+      setError(
+        "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin đăng nhập."
+      );
     }
   };
 
-  // Kiểm tra nếu người dùng đã đăng nhập, chuyển hướng đến trang chính
-  if (loggedInUser) {
-    navigate("/");
-    console.log("da dang nhap r");
-    return null; // Trả về null để ngăn component này render
-  }
-
+  useEffect(() => {
+    if (checkLoggedUser) {
+      console.log("logged");
+      // navigate("/");
+    } else {
+      console.log("not logged");
+    }
+  }, [checkLoggedUser, navigate]);
   return (
     <div className="auth_page">
       <div className="login_form_container">

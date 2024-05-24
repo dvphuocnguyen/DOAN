@@ -1,19 +1,24 @@
 const onlyAdminAccess = async (req, res, next) => {
+  console.log(req.user,'aaaaaaxxxxxx')
   try {
-    if (req.user.role != 1) {
-      return res.status(400).json({
+    // Kiểm tra xem người dùng có phải là admin không
+    console.log(req.user,'adminmiddlerware11')
+    if (req.user.role !== 1) {
+      return res.status(403).json({
         success: false,
-        msg: "You haven't permission to access this route",
+        msg: "You don't have permission to access this route",
       });
     }
+
+    // Nếu là admin, tiếp tục xử lý yêu cầu
+    next();
   } catch (error) {
-    return res.status(400).json({
+    console.error(error);
+    return res.status(500).json({
       success: false,
-      msg: "Some thing went wrong!",
+      msg: "Internal server error",
     });
   }
-
-  return next();
 };
 
 module.exports = {

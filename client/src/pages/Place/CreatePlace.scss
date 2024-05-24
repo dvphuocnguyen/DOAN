@@ -1,0 +1,23 @@
+.from_container {
+  width: 400px;
+  height: 720px;
+  border: 1px solid;
+  margin: auto;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.from_container > *{
+  width: 100%;
+  border-bottom: 1px solid rgba(63, 63, 63, 0.4);
+}
+.form_item >*:nth-child(2){
+  display: inline-block;
+  outline: none;
+}
+.form_item > *{
+  width: 100%;
+}
+

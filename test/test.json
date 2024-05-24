@@ -1,0 +1,150 @@
+{
+    "schedule": [
+        [
+            {
+                "time": "07:00",
+                "place_name": "New Coffee PA",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547a0"
+            },
+            {
+                "time": "07:30",
+                "place_name": "I COFFEE (Quán cà phê 24/7)",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547a1"
+            },
+            {
+                "time": "08:00",
+                "place_name": "Cà Phê Phong",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547a2"
+            },
+            {
+                "time": "08:30",
+                "place_name": "Cà Phê Huy Coffee",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547a3"
+            },
+            {
+                "time": "09:00",
+                "place_name": "Truc Duyen Coffee Shop",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547a4"
+            },
+            {
+                "time": "09:30",
+                "place_name": "Ribo Coffee - Quán Cafe Đẹp Đà Nẵng",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547a5"
+            },
+            {
+                "time": "10:00",
+                "place_name": "Huong Coffee Shop",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547a6"
+            },
+            {
+                "time": "10:30",
+                "place_name": "Good Coffee",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547a7"
+            },
+            {
+                "time": "13:00",
+                "place_name": "Tiệm Cà Phê & Trà Sữa Phố 01",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547a8"
+            },
+            {
+                "time": "13:30",
+                "place_name": "Quán Cũ Coffee",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547a9"
+            }
+        ],
+        [
+            {
+                "time": "07:00",
+                "place_name": "Cà phê An Nhiên",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547aa"
+            },
+            {
+                "time": "07:30",
+                "place_name": "Coffee Vườn - Cây Vối",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547ab"
+            },
+            {
+                "time": "08:00",
+                "place_name": "Miland Coffee",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547ac"
+            },
+            {
+                "time": "08:30",
+                "place_name": "GÓC PHỐ coffee",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547ad"
+            },
+            {
+                "time": "09:00",
+                "place_name": "Sơn Trà Cà Phê (Coffee Store)",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547ae"
+            },
+            {
+                "time": "09:30",
+                "place_name": "Thanh Huyen Coffee Shop",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547af"
+            },
+            {
+                "time": "10:00",
+                "place_name": "Cafe sân vườn KASHI Coffee",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547b0"
+            },
+            {
+                "time": "10:30",
+                "place_name": "Lee Coffee",
+                "duration": "0.5h",
+                "_id": "663fba568be333d24c8547b1"
+            },
+            {
+                "time": "13:00",
+                "place_name": "Dragon Bridge",
+                "duration": "1h",
+                "_id": "663fba568be333d24c8547b2"
+            },
+            {
+                "time": "14:00",
+                "place_name": "Han River Bridge Viewpoint",
+                "duration": "1h",
+                "_id": "663fba568be333d24c8547b3"
+            }
+        ],
+        [
+            {
+                "time": "07:00",
+                "place_name": "Yarra Building",
+                "duration": "1h",
+                "_id": "663fba568be333d24c8547b4"
+            },
+            {
+                "time": "08:00",
+                "place_name": "Hầm đi bộ Holiday Beach",
+                "duration": "1h",
+                "_id": "663fba568be333d24c8547b5"
+            },
+            {
+                "time": "09:00",
+                "place_name": "Di tích nhà ông Huỳnh Trưng",
+                "duration": "1h",
+                "_id": "663fba568be333d24c8547b6"
+            }
+        ]
+    ],
+    "_id": "663fba568be333d24c85479f",
+    "__v": 0
+}

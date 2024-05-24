@@ -1,15 +1,31 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const placeSchema = new mongoose.Schema({
-  place_name: {
+  name: {
+    type: String,
+    required: true,
+  },
+  city: {
     type: String,
     required: true,
   },
   description: {
     type: String,
-    required: false,
+    required: true,
   },
-  address: {
+  duration: {
+    type: Number,
+    required: true,
+  },
+  priority: {
+    type: Number,
+    required: true,
+  },
+  openingHours: {
+    type: String,
+    required: true,
+  },
+  closingHours: {
     type: String,
     required: true,
   },
@@ -17,26 +33,42 @@ const placeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  timeToLive: {
-    type: Number,
-    required: true,
-  },
-  placeType: {
+  category: {
     type: Array,
     required: true,
   },
-  img: {
-    type: String,
-    required: false,
+  location: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    }
   },
-  rating: {
-    type: Number,
-    required: false,
-  },
-  event: {
-    type: String,
-    required: false,
-  },
+  images: [String],
+  reviews: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+      rating: {
+        type: Number,
+        required: true,
+      },
+      comment: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
-module.exports = mongoose.model("Place", placeSchema);
+placeSchema.index({ location: '2dsphere' });
+
+const Place = mongoose.model('Place', placeSchema);
+
+module.exports = Place;

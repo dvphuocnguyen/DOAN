@@ -1,71 +1,110 @@
-import { useState, useEffect } from "react";
-import "../Search/SearchService.scss";
-import { FaMapMarkerAlt } from "react-icons/fa";
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { FaStar } from "react-icons/fa";
+import Rating from "react-rating";
 
-const SearchService = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/api/places?searchTerm=${searchTerm}`);
-        setSearchResults(response.data.data);
-      } catch (error) {
-        console.error('Error fetching places:', error);
-      }
-    };
-
-    fetchData();
-  }, [searchTerm]);
-
-  const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
+const Feedback = (feedback) => {
+  const feedbacks = feedback.feedback;
+  const colors = {
+    orange: "#FFA500",
+    grey: "#808080",
   };
+
+  const [result, setResult] = useState();
+  useEffect(() => {
+    if (feedbacks) {
+      var total = 0;
+      feedbacks.map((item) => {
+        total += item.rating;
+      });
+      setResult(total / feedbacks.length);
+    }
+  }, [feedbacks]);
+
+  const totalStart = feedbacks.length;
+  const startCounts = [0, 0, 0, 0, 0, 0];
+  feedbacks.forEach((item) => {
+    startCounts[item.rating]++;
+  });
 
   return (
     <>
-      <div className="search_container">
-        <div className="ui_search_container">
-          <p className="service_text">
-            Lên lịch trình du lịch theo sở thích cá nhân
-          </p>
-          <div className="search_top">
-            <button className="tab-button" data-target="plan">
-              Lịch trình
-            </button>
-            <button className="tab-button" data-target="hotel">
-              Khách sạn
-            </button>
-            <button className="tab-button" data-target="tour">
-              TOUR
-            </button>
+      <div className="feedback-overview">
+        <div className="overall-rating">
+          <span className="rating-value">4.8</span>
+          <div className="star-rating">
+            <Rating
+              initialRating={4.8}
+              emptySymbol={<FaStar color={colors.grey} className="icon" />}
+              fullSymbol={<FaStar color={colors.orange} className="icon" />}
+              readonly
+            />
           </div>
-          <div className="search_bottom">
-            <div className="search_box active" id="plan">
-              <div className="search_box_css">
-                <FaMapMarkerAlt className="search_box_icon" />
-                <input type="text" placeholder="Bạn muốn đi đâu?" onChange={handleInputChange} />
-                <button className="btn">Lên lịch trình</button>
+          <span className="total-reviews">(37.7k đánh giá)</span>
+        </div>
+        <div className="filters">
+          <button>Tất cả</button>
+          <button>5 Sao (37.7k)</button>
+          <button>4 Sao (2.7k)</button>
+          <button>3 Sao (821)</button>
+          <button>2 Sao (222)</button>
+          <button>1 Sao (425)</button>
+          <button>Có Bình Luận (15.8k)</button>
+          <button>Có Hình Ảnh / Video (7.5k)</button>
+        </div>
+      </div>
+      <hr style={{ border: "3px solid #f1f1f1" }} />
+      <div className="row-feedback padding-feedback">
+        {startCounts.map((count, index) => {
+          if (index === 0) return null;
+          const percentage = (count / totalStart) * 100;
+          return (
+            <div key={index} className="star-row">
+              <div className="side-feedback">
+                <div>{index} Sao</div>
+              </div>
+              <div className="middle-feedback">
+                <div className="bar-container-feedback">
+                  <div
+                    className={`bar-${index}`}
+                    style={{ width: ${percentage}% }}
+                  ></div>
+                </div>
+              </div>
+              <div className="side-feedback right-feedback">
+                <div>{count}</div>
               </div>
             </div>
-            {/* Hiển thị kết quả tìm kiếm */}
-            <div className="search_results">
-              {searchResults.map(place => (
-                <div key={place._id} className="search_result_item">
-                  <h3>{place.place_name}</h3>
-                  <p>{place.description}</p>
-                  <p>{place.address}</p>
-                  <p>{place.cost}</p>
-                </div>
-              ))}
+          );
+        })}
+      </div>
+      <div className="individual-reviews">
+        {feedbacks.map((item, index) => (
+          <div key={index} className="review-item">
+            <div className="review-header">
+              <span className="username">{item.username}</span>
+              <span className="rating-date">
+                {item.date} | Phân loại hàng: {item.category}
+              </span>
+              <Rating
+                initialRating={item.rating}
+                emptySymbol={<FaStar color={colors.grey} className="icon" />}
+                fullSymbol={<FaStar color={colors.orange} className="icon" />}
+                readonly
+              />
+            </div>
+            <div className="review-content">
+              <p>{item.content}</p>
+              <div className="review-images">
+                {item.images.map((img, idx) => (
+                  <img key={idx} src={img} alt="review" />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </>
   );
 };
 
-export default SearchService;
+export default Feedback;

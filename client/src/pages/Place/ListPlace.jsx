@@ -4,6 +4,8 @@ import "./ListPlace.scss";
 import place_img from "../../assets/image/tour_img_dn.png";
 import { MdPlace } from "react-icons/md";
 import { Link } from "react-router-dom";
+import React from "react";
+import Header from "../../components/Header/Header";
 import Navbar from "../../components/Navbar/Navbar";
 
 const ListPlace = () => {
@@ -26,7 +28,8 @@ const ListPlace = () => {
 
   return (
     <>
-      <Navbar />
+      <Header />
+      <Navbar/>
       <div className="list_place_containter">
         <div className="place_type">
           <p className="place_type_item">Được đánh giá cao</p>

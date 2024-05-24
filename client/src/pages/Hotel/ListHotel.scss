@@ -1,0 +1,86 @@
+.page {
+  background-color: #f2f2f2;
+}
+
+.search_hotel_containter {
+  width: 86%;
+  margin: auto;
+  background-color: whitesmoke;
+  padding: 10px 0px;
+}
+
+.search_hotel_form {
+  width: 100%;
+  height: 60px;
+  background-color: #dfdfdf;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.in_search_form {
+  margin-left: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 64%;
+  background-color: #dfdfdf;
+}
+.hotel_search_item {
+  width: auto;
+  height: 80%;
+}
+/////body///////////
+.hotel_search_body {
+  display: flex;
+  width: 100%;
+}
+
+.search_filter {
+  flex: 1;
+  background-color: aqua;
+  margin-right: 40px;
+  height: 600px;
+}
+.hotel_list {
+  flex: 3;
+}
+
+.hotel_item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.item_img {
+  flex: 2;
+}
+.item_name {
+  font-size: 18px;
+  color: rgb(21, 90, 187);
+  font-weight: 600;
+}
+
+.item_info {
+  flex: 5;
+  padding-left: 20px;
+}
+
+.item_order {
+  flex: 2;
+  align-self: center;
+}
+.item_cost {
+  margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: 500;
+  span {
+    font-size: 12px;
+    font-weight: 300;
+  }
+}
+.order_btn {
+  margin-left: 16px !important;
+}

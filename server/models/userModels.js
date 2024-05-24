@@ -15,14 +15,12 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: Number,
-    default: 3, // 3 : normal user   2: partner   1: admin
+    default: 3, // 3: normal user, 2: partner, 1: admin
   },
+  rooms: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Room",
+  }],
 });
 
 module.exports = mongoose.model("User", userSchema);
-
-/*
-const User = mongoose.model("User", userSchema);
-module.exports = User
-
-*/
