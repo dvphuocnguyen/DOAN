@@ -12,14 +12,18 @@ const scheduleSchema = new mongoose.Schema({
           type: String,
           required: true,
         },
+        address: {
+          type: String,
+          require: true,
+        },
         duration: {
           type: String,
           required: true,
         },
-        distance:{
+        distance: {
           type: String,
-          required: true
-        }
+          required: true,
+        },
       },
     ],
   ],

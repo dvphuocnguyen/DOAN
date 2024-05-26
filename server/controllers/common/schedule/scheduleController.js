@@ -96,9 +96,9 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 } 
 async function generateDailySchedule(places) {
   const morningStart = 7 * 60;  // 7:00 AM in minutes
-  const morningEnd = 11 * 60;   // 11:00 AM in minutes
+  const morningEnd = 12 * 60;   // 11:00 AM in minutes
   const afternoonStart = 13 * 60;  // 1:00 PM in minutes
-  const eveningEnd = 20 * 60;  // 8:00 PM in minutes
+  const eveningEnd = 21 * 60;  // 8:00 PM in minutes
 
   let currentTime = morningStart;
   let daySchedule = [];
@@ -113,7 +113,7 @@ async function generateDailySchedule(places) {
       time: formatTime(currentTime),
       place_name: place.name,
       duration: place.duration + 'h',
-      distance: distance ? `${(distance / 1000).toFixed(2)} km` : 'N/A'
+      distance: distance ? `${(distance / 1000).toFixed(2)} km` : 'n/a'
     });
     currentTime += duration + travelTime; // Move time forward by the duration of the visit and travel time
   };

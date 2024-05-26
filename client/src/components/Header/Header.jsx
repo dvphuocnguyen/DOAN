@@ -17,9 +17,9 @@ const Header = () => {
   const [detail] = state.UserAPI.detail;
   const [userID] = state.UserAPI.userID;
 
-  console.log(isLogged, "logged? : admin?", isAdmin);
-  console.log(userID,' userID');
-  console.log(detail?.data?.role, "deteo");
+  // console.log(isLogged, "logged? : admin?", isAdmin);
+  // console.log(userID,' userID');
+  // console.log(detail?.data?.role, "deteo");
   //////
 
   ///

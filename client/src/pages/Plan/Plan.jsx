@@ -26,7 +26,7 @@ function Plan() {
       console.error("Error generating schedule:", error);
     }
   };
-  console.log(optimalSchedule);
+  console.log('lich',optimalSchedule);
 
   const saveScheduleToDB = async () => {
     try {
@@ -56,17 +56,20 @@ function Plan() {
         {optimalSchedule.map((daySchedule, i) => (
           <div key={i} className="plan_schedule">
             <p className="schedule_day">Ngày {i + 1}:</p>
-            {daySchedule.map(({ time, place_name, duration, distance }, j) => (
+            {daySchedule.map(({ time, place_name,address, duration, distance }, j) => (
               <div key={j} className="schedule_day_item">
-                <div className="schedule_item_right">
-                  <p>{time}</p>
-                </div>
-                <div className="schedule_item_left">
-                  <p>{place_name}</p>
-                  <p className="time_to_live">
-                    Thời gian tham quan: {duration}
-                  </p>
-                  <p>Khoảng cách: {distance}</p>
+                  {j > 0 ? <p className="item_space">Khoảng cách: {distance}</p> : null}
+                <div>
+                  <div className="schedule_item_right">
+                    <p>{time}</p>
+                  </div>
+                  <div className="schedule_item_left">
+                    <p className="name_place">{place_name}</p>
+                    <p>Địa điểm: {address}</p>
+                    <p className="time_to_live">
+                      Thời gian tham quan: {duration}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}

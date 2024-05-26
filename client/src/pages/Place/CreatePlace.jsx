@@ -22,21 +22,36 @@ const CreatePlace = () => {
   const [images, setImages] = useState([]); // State để lưu trữ các tệp hình ảnh đã chọn
 
   const options = [
-    { value: "coffe", label: "coffe" },
-    { value: "Natural", label: "Natural" },
-    { value: "Museum", label: "Museum" },
+    { value: "coffee", label: "Coffee" },
+    { value: "restaurent", label: "Restaurent" },
+    { value: "natural", label: "Natural" },
+    { value: "museum", label: "Museum" },
+    { value: "establishment ", label: "Establishment " },
+    { value: "point_of_interest", label: "Point of Interest " },
+    { value: "tourist_attraction", label: "Tourist Attraction" },
+    { value: "beach", label: "Beach" },
+    { value: "mountain", label: "Mountain" },
+    { value: "village", label: "Village" },
+    { value: "park", label: "Park" },
+    { value: "inside", label: "InSide" },
+    { value: "outside", label: "OutSide" },
+    { value: "spring", label: "Spring" },
+    { value: "summer", label: "Summer" },
+    { value: "autumn", label: "Autumn" },
+    { value: "winter", label: "Winter" },
+    { value: "long_time", label: "Long Time" },
   ];
 
   const handleChangeCategory = (selectedOptions) => {
     setCategory(selectedOptions);
     console.log(selectedOptions);
   };
-  
+
   const handleImageChange = (e) => {
     // Lấy danh sách các tệp hình ảnh từ sự kiện onChange
     const files = e.target.files;
     setImages(files);
-    console.log(images)
+    console.log(images);
   };
 
   const handleSubmit = async (event) => {
@@ -136,7 +151,7 @@ const CreatePlace = () => {
             <label>Duration (hours):</label>
             <input
               type="number"
-              step="0.1"
+              step="0.25"
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
               required
@@ -202,7 +217,7 @@ const CreatePlace = () => {
             </select>
           </div>
           <div className="form_item">
-            <label>Longitude:</label>
+            <label>Latitude:</label>
             <input
               type="number"
               step="0.0001"
@@ -212,7 +227,7 @@ const CreatePlace = () => {
             />
           </div>
           <div className="form_item">
-            <label>Latitude:</label>
+            <label>Longitude:</label>
             <input
               type="number"
               step="0.0001"
@@ -229,7 +244,9 @@ const CreatePlace = () => {
               onChange={handleImageChange} // Bắt sự kiện thay đổi của input file và gọi hàm handleImageChange
             />
           </div>
-          <button type="submit" className="btn">Create Place</button>
+          <button type="submit" className="btn">
+            Create Place
+          </button>
         </form>
       </div>
     </>

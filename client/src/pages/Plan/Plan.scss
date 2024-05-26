@@ -1,10 +1,10 @@
 .plan_container {
 }
 .plan_schedule {
-    width: 400px !important;
-    display: inline-block;
-    height: 600px;
-    vertical-align: top;
+  width: 400px !important;
+  display: inline-block;
+  height: 600px;
+  vertical-align: top;
 }
 .plan_day {
   padding: 20px 10px;
@@ -19,14 +19,28 @@
   padding: 0 10px;
   margin-bottom: 20px;
 }
+.item_space {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 280px;
+  height: 32px;
+  margin: 15px 0;
+  padding: 15px 0px 5px 0px;
+  border-bottom: 3px inset;
+}
 .schedule_day_item {
   display: flex;
+  flex-direction: column;
   margin: 5px 5px 5px 35px;
 }
-.schedule_item_left{
-    margin-left: 20px;
+.schedule_item_left {
+  margin-left: 20px;
 }
-
-.time_to_live{
-    font-size: 12px;
+.name_place{
+  font-size: 16px;
+  font-weight: 600;
+}
+.time_to_live {
+  font-size: 13px;
 }

@@ -13,8 +13,9 @@ const cookieParser = require("cookie-parser");
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173', // Địa chỉ của frontend
+  origin: ['https://doan-mu.vercel.app', 'http://localhost:5173'],
   credentials: true, // Để gửi cookie
+  optionsSuccessStatus: 200
 }));
 app.use(cookieParser());
 

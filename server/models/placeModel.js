@@ -1,7 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const placeSchema = new mongoose.Schema({
   name: {
+    type: String,
+    required: true,
+  },
+  address: {
     type: String,
     required: true,
   },
@@ -40,20 +44,20 @@ const placeSchema = new mongoose.Schema({
   location: {
     type: {
       type: String,
-      enum: ['Point'],
+      enum: ["Point"],
       required: true,
     },
     coordinates: {
       type: [Number],
       required: true,
-    }
+    },
   },
   images: [String],
   reviews: [
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
       },
       rating: {
         type: Number,
@@ -67,8 +71,8 @@ const placeSchema = new mongoose.Schema({
   ],
 });
 
-placeSchema.index({ location: '2dsphere' });
+placeSchema.index({ location: "2dsphere" });
 
-const Place = mongoose.model('Place', placeSchema);
+const Place = mongoose.model("Place", placeSchema);
 
 module.exports = Place;
