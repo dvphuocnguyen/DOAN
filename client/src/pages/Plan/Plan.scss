@@ -3,8 +3,9 @@
 .plan_schedule {
   width: 400px !important;
   display: inline-block;
-  height: 600px;
+  min-height: 600px;
   vertical-align: top;
+  margin: 10px 0px 20px 0px;
 }
 .plan_day {
   padding: 20px 10px;

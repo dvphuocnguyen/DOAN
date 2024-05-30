@@ -22,7 +22,7 @@ const CreatePlace = () => {
   const [images, setImages] = useState([]); // State để lưu trữ các tệp hình ảnh đã chọn
 
   const options = [
-    { value: "coffee", label: "Coffee" },
+    { value: "coffee", label: "Coffee"},
     { value: "restaurent", label: "Restaurent" },
     { value: "natural", label: "Natural" },
     { value: "museum", label: "Museum" },
@@ -31,7 +31,15 @@ const CreatePlace = () => {
     { value: "tourist_attraction", label: "Tourist Attraction" },
     { value: "beach", label: "Beach" },
     { value: "mountain", label: "Mountain" },
+    { value: "lake", label: "Lake" },
     { value: "village", label: "Village" },
+    { value: "pagoda", label: "Pagoda" },
+    { value: "church", label: "Church" },
+    { value: "market", label: "Market" },
+    { value: "night_market", label: "Night Market" },
+    { value: "store", label: "Store" },
+    { value: "food", label: "Food" },
+    { value: "drink", label: "Drink" },
     { value: "park", label: "Park" },
     { value: "inside", label: "InSide" },
     { value: "outside", label: "OutSide" },
@@ -169,7 +177,7 @@ const CreatePlace = () => {
           <div className="form_item">
             <label>Opening Hours:</label>
             <input
-              type="text"
+              type="time"
               value={openingHours}
               onChange={(e) => setOpeningHours(e.target.value)}
               required
@@ -178,7 +186,7 @@ const CreatePlace = () => {
           <div className="form_item">
             <label>Closing Hours:</label>
             <input
-              type="text"
+              type="time"
               value={closingHours}
               onChange={(e) => setClosingHours(e.target.value)}
               required

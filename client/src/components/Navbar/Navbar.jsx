@@ -43,7 +43,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="bottom_nav_item">
-            <Link className="nav_link" to="/create_place">
+            <Link className="nav_link" to="/plan">
               Lịch trình
             </Link>
           </li>

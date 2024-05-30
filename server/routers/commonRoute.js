@@ -56,7 +56,7 @@ router.get("/get-allPlace/search", searchPlaces);
 router.get('/distance/:id1/:id2', getDistance);
 
 //schedule
-router.post("/schedule", createSchedule);
+router.post("/create_schedule", createSchedule);
 router.get("/getSchedule", getSchedule);
 router.post('/schedules/days', createScheduleForDays);
 
