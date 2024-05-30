@@ -2,6 +2,8 @@ const Schedule = require("../../../models/scheduleModule");
 const axios = require("axios");
 const Place = require("../../../models/placeModel");
 
+////
+
 const createSchedule = async (req, res) => {
   try {
     const { date, schedule } = req.body;
@@ -53,30 +55,34 @@ const deleteSchedule = async (req, res) => {
 };
 
 // Logic để lấy danh sách địa điểm theo thành phố
-async function fetchPlaces(city) {
+async function fetchPlaces(city, preferences) {
   try {
     const response = await axios.get("http://localhost:3001/api/get-allPlace");
-    if (response.data.success && Array.isArray(response.data.data)) {
-      const places = response.data.data.filter((place) => place.city === city);
+    if (response.status === 200 && response.data.success && Array.isArray(response.data.data)) {
+      let places = response.data.data.filter((place) => place.city === city);
+      if (preferences && preferences.length > 0) {
+        places = places.filter(place =>
+          preferences.some(preference => place.category.includes(preference))
+        );
+      }
+      console.log(`Fetched places for ${city} with preferences:`, places);
       return places;
     } else {
-      console.error(
-        "API returned an error or the format is incorrect:",
-        response.data
-      );
-      return [];
+      throw new Error("Invalid API response format");
     }
   } catch (error) {
-    console.error("Error fetching places:", error);
+    console.error("Error fetching places:", error.message);
     throw error;
   }
 }
 
+
+////// distance
+
 // Hàm tính khoảng cách giữa hai tọa độ
-const calculateDistance = (lat1, lon1, lat2, lon2) => {
-  // Haversine formula to calculate distance between two points on the Earth
-  const R = 6371e3; // Earth's radius in meters
-  const φ1 = (lat1 * Math.PI) / 180;
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371e3; // Bán kính trái đất tính bằng mét
+  const φ1 = (lat1 * Math.PI) / 180; // Convert to radians
   const φ2 = (lat2 * Math.PI) / 180;
   const Δφ = ((lat2 - lat1) * Math.PI) / 180;
   const Δλ = ((lon2 - lon1) * Math.PI) / 180;
@@ -86,158 +92,170 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
     Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-  return R * c; // Distance in meters
-};
-const formatTime = (minutes) => {
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
-  return `${hours}:${mins.toString().padStart(2, "0")}`;
-};
-const convertTimeToMinutes = (time) => {
-  const [hours, minutes] = time.split(":").map(Number);
-  return hours * 60 + minutes;
-};
-const findNearbyRestaurant = (coordinates, places) => {
-  // Tìm nhà hàng gần tọa độ hiện tại, giả định khoảng cách tối đa là 5km
-  return places.find(
-    (place) =>
-      place.category.some((cat) => cat.value === "restaurant") &&
-      calculateDistance(
-        coordinates[1],
-        coordinates[0],
-        place.location.coordinates[1],
-        place.location.coordinates[0]
-      ) < 15000
-  );
-};
+  const distance = R * c; // Khoảng cách tính bằng mét
+  return distance;
+}
 
-async function generateDailySchedule(places, preferences) {
-  const morningStart = 8 * 60; // 7:00 AM in minutes
+
+async function generateDailySchedule(places, avoidTypes) {
+  const morningStart = 7 * 60; // 7:00 AM in minutes
+  const morningEnd = 11 * 60; // 11:00 AM in minutes
+  const afternoonStart = 13 * 60; // 1:00 PM in minutes
+  const eveningEnd = 22 * 60; // 8:00 PM in minutes
   const lunchStart = 11 * 60; // 11:00 AM in minutes
-  const lunchEnd = 13 * 60; // 1:00 PM in minutes
-  const eveningEnd = 22 * 60; // 10:00 PM in minutes
-  const maxDistance = 15000; // 15 km
+  const avgSpeed = 32; // Average travel speed in km/h
+
   let currentTime = morningStart;
   let daySchedule = [];
-  let lastPlaceCoordinates = null;
+  let usedTypes = new Set();
 
-  // Tìm địa điểm trùng với sở thích và sắp xếp theo số lượng sở thích trùng khớp
-  let preferencesPlaces = places
-    .filter((place) =>
-      preferences.some((pref) =>
-        place.category.some((cat) => cat.value === pref.value)
-      )
-    )
-    .sort((a, b) => {
-      const aMatches = a.category.filter((cat) =>
-        preferences.some((pref) => cat.value === pref.value)
-      ).length;
-      const bMatches = b.category.filter((cat) =>
-        preferences.some((pref) => cat.value === pref.value)
-      ).length;
-      return bMatches - aMatches;
+  // Shuffle and adjust priorities
+  places = shuffleArray([...places]);
+  places = adjustPriorities(places);
+  places.sort((a, b) => b.priority - a.priority);
+
+  const addPlaceToSchedule = (place, travelTime, distance) => {
+    let duration = Math.floor(parseFloat(place.duration) * 60);
+    let totalDuration = duration + travelTime;
+    daySchedule.push({
+      time: formatTime(currentTime),
+      place_name: place.name,
+      duration: place.duration,
+      distance: distance ? `${(distance / 1000).toFixed(2)}` : "N/A",
+      type: place.type,
     });
+    usedTypes.add(place.type);
+    currentTime += totalDuration;
+  };
 
-    console.log(preferencesPlaces)
-
-  // Nếu không có địa điểm nào phù hợp, trả về mảng rỗng
-  if (preferencesPlaces.length === 0) {
-    console.log("Không có địa điểm phù hợp sở thích");
-    return [];
-  }
-
-  // Helper function to convert time in HH:MM format to minutes
-  function convertTimeToMinutes(time) {
-    const [hours, minutes] = time.split(':').map(Number);
+  const timeStringToMinutes = (timeString) => {
+    const [hours, minutes] = timeString.split(":").map(Number);
     return hours * 60 + minutes;
-  }
+  };
 
-  // Helper function to calculate distance between two coordinates
-  function calculateDistance(lat1, lon1, lat2, lon2) {
-    const toRad = (value) => (value * Math.PI) / 180;
-    const R = 6371; // Radius of the Earth in km
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c * 1000; // Distance in meters
-    return distance;
-  }
+  const findRestaurant = () => {
+    const restaurant = places.find(
+      (place) =>
+        place.category &&
+        place.category.some((cat) => cat.value === "restaurent")
+    );
+    return restaurant ? restaurant : null;
+  };
 
-  // Helper function to find a nearby restaurant
-  function findNearbyRestaurant(lastPlaceCoordinates, places) {
-    return places.find((place) => place.category.some((cat) => cat.value === "restaurant"));
-  }
+  let remainingPlaces = [...places];
 
-  // Helper function to format time from minutes to HH:MM format
-  function formatTime(minutes) {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours}:${mins < 10 ? '0' : ''}${mins}`;
-  }
+  while (remainingPlaces.length > 0 && currentTime < eveningEnd) {
+    let placeAdded = false;
+    let nearestPlaceIndex = -1;
+    let minDistance = Infinity;
+    let travelTime = 0;
 
-  // Check if the place is within operating hours
-  function isWithinOperatingHours(place, currentTime) {
-    const openingTime = convertTimeToMinutes(place.openingHours);
-    const closingTime = convertTimeToMinutes(place.closingHours);
-    const visitTime = place.duration;
-    return currentTime >= openingTime && visitTime + currentTime <= closingTime;
-  }
+    for (let i = 0; i < remainingPlaces.length; i++) {
+      let place = remainingPlaces[i];
+      let distance = 0;
 
-  for (let i = 0; i < preferencesPlaces.length; i++) {
-    const place = preferencesPlaces[i];
-
-    if (isWithinOperatingHours(place, currentTime)) {
-      if (lastPlaceCoordinates) {
-        let distance = calculateDistance(
-          lastPlaceCoordinates[1],
-          lastPlaceCoordinates[0],
-          place.location.coordinates[1],
-          place.location.coordinates[0]
+      if (daySchedule.length > 0) {
+        let prevPlace = places.find(
+          (p) => p.name === daySchedule[daySchedule.length - 1].place_name
         );
-
-        if (distance > maxDistance) continue; // Nếu khoảng cách quá xa thì bỏ qua địa điểm này
+        if (prevPlace) {
+          distance = calculateDistance(
+            prevPlace.location.coordinates[0],
+            prevPlace.location.coordinates[1],
+            place.location.coordinates[0],
+            place.location.coordinates[1]
+          );
+          travelTime = Math.floor((distance / 1000 / avgSpeed) * 60);
+        }
       }
 
-      let duration = place.duration;
-      daySchedule.push({
-        time: formatTime(currentTime),
-        place_name: place.name,
-        duration: `${duration}h`,
-        distance: lastPlaceCoordinates ? calculateDistance(
-          lastPlaceCoordinates[1],
-          lastPlaceCoordinates[0],
-          place.location.coordinates[1],
-          place.location.coordinates[0]
-        ) : "N/A",
-      });
+      const openingTime = timeStringToMinutes(place.openingHours);
+      const closingTime = timeStringToMinutes(place.closingHours);
+      const placeType = place.type;
 
-      lastPlaceCoordinates = place.location.coordinates;
-      currentTime += duration;
-
-      if (currentTime >= lunchStart && currentTime <= lunchEnd) {
-        const restaurant = findNearbyRestaurant(lastPlaceCoordinates, places);
-        if (restaurant) {
-          daySchedule.push({
-            time: formatTime(currentTime),
-            place_name: restaurant.name,
-            duration: "1h",
-            distance: "n/a",
-          });
-          currentTime += 60; // Thời gian ăn trưa là 1 giờ
+      if (
+        currentTime + parseFloat(place.duration) * 60 <= closingTime &&
+        currentTime >= openingTime &&
+        (!avoidTypes.includes(placeType) || !usedTypes.has(placeType))
+      ) {
+        if (distance < minDistance) {
+          minDistance = distance;
+          nearestPlaceIndex = i;
         }
       }
     }
+
+    if (nearestPlaceIndex !== -1) {
+      let nearestPlace = remainingPlaces[nearestPlaceIndex];
+      addPlaceToSchedule(nearestPlace, travelTime, minDistance);
+      remainingPlaces.splice(nearestPlaceIndex, 1);
+      placeAdded = true;
+
+      // Kiểm tra nếu thời gian hiện tại kết thúc trong khoảng từ 11:00 đến 12:00 và thêm thời gian nghỉ trưa
+      if (currentTime >= morningEnd && currentTime <= lunchStart) {
+        currentTime = afternoonStart; // Chuyển sang buổi chiều sau thời gian nghỉ trưa
+        const restaurant = findRestaurant();
+        if (restaurant) {
+          addPlaceToSchedule(restaurant, 0, 0); // travelTime và distance = 0 vì không cần tính thời gian di chuyển trong thời gian nghỉ trưa
+        } else {
+          // Nếu không tìm thấy nhà hàng, ghi lại là thời gian nghỉ trưa
+          daySchedule.push({
+            time: formatTime(lunchStart),
+            place_name: "Lunch Break",
+            duration: "1h",
+            distance: "N/A",
+            type: "break",
+          });
+        }
+      }
+    }
+
+    if (!placeAdded && currentTime < afternoonStart) {
+      currentTime = afternoonStart;
+    }
+
+    if (!placeAdded && currentTime >= afternoonStart) {
+      break;
+    }
+  }
+
+  if (daySchedule.length === 0) {
+    daySchedule.push({
+      time: formatTime(morningStart),
+      place_name: "No places available in the morning",
+      duration: "N/A",
+      distance: "N/A",
+      type: "N/A",
+    });
   }
 
   return daySchedule;
 }
 
 
-//////
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function formatTime(minutes) {
+  let hours = Math.floor(minutes / 60);
+  let mins = Math.floor(minutes % 60);
+  return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
+}
+function adjustPriorities(places) {
+  return places.map((place) => {
+    let priorityAdjustment = Math.random() * 2 - 1;
+    return { ...place, priority: place.priority + priorityAdjustment };
+  });
+}
+
+
+// Tạo lịch trình cho nhiều ngày dựa trên thành phố
 const createScheduleForDayss = async (req, res) => {
   const { days, preferences } = req.body; // days: số ngày yêu cầu
 
@@ -247,25 +265,43 @@ const createScheduleForDayss = async (req, res) => {
 
   try {
     let activities = [];
-    for (let i = 0; i < days; i++) {
+    let usedPlaces = new Set();
+
+    for (let i = 1; i <= days; i++) {
       let city = "Đà Nẵng"; // Mặc định là Đà Nẵng
       if (i > 3 && i <= 5) {
         city = "Quảng Nam"; // Ngày thứ 4 và 5 đi Quảng Nam
       } else if (i > 5) {
         city = "Huế"; // Kể từ ngày thứ 6 đi Huế
       }
-      const places = await fetchPlaces(city);
+      const avoidTypes = ["bridge", "coffee"];
+
+      let places = await fetchPlaces(city, preferences);
+      places = places.filter((place) => !usedPlaces.has(place._id));
+
+      if (places.length === 0) {
+        // Nếu không có địa điểm phù hợp với sở thích, lấy tất cả địa điểm trong thành phố
+        places = await fetchPlaces(city, []);
+        places = places.filter((place) => !usedPlaces.has(place._id));
+      }
+
       if (places.length === 0) {
         return res.status(404).json({ message: `No places found in ${city}` });
       }
 
-      // Tạo lịch trình cho ngày hiện tại với các địa điểm đã chọn
-      const dailySchedule = await generateDailySchedule(places, preferences);
-      // Thêm lịch trình của ngày hiện tại vào danh sách tổng
+      const dailySchedule = await generateDailySchedule(places, avoidTypes);
+      console.log(`Day ${i + 1} schedule:`, dailySchedule);
+
+      dailySchedule.forEach((activity) => {
+        const place = places.find((p) => p.name === activity.place_name);
+        if (place) {
+          usedPlaces.add(place._id);
+        }
+      });
+
       activities.push(dailySchedule);
     }
 
-    // Tạo một lịch trình mới với các hoạt động đã được sắp xếp theo ngày
     const newSchedule = new Schedule({ schedule: activities });
     const savedSchedule = await newSchedule.save();
     res.status(201).json(savedSchedule);
@@ -274,6 +310,7 @@ const createScheduleForDayss = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
 
 // Export các hàm
 module.exports = {

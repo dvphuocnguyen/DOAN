@@ -29,7 +29,10 @@ function Plan() {
       console.log("Response data:", response.data);
       setOptimalSchedule(response.data.schedule);
     } catch (error) {
-      console.error("Error generating schedule:", error.response?.data || error.message);
+      console.error(
+        "Error generating schedule:",
+        error.response?.data || error.message
+      );
     }
     console.log("Optimal schedule:", optimalSchedule);
   };
@@ -80,7 +83,16 @@ function Plan() {
     setPreferences(preferences);
     console.log(preferences);
   };
-
+  const formatDuration = (duration) => {
+    if (duration >= 1) {
+      const hours = Math.floor(duration);
+      const minutes = Math.round((duration - hours) * 60);
+      return `${hours}h${minutes}p`;
+    } else {
+      const minutes = Math.round(duration * 60);
+      return `${minutes}p`;
+    }
+  };
   return (
     <>
       <Header />
@@ -108,7 +120,10 @@ function Plan() {
               ({ time, place_name, address, duration, distance }, j) => (
                 <div key={j} className="schedule_day_item">
                   {j > 0 ? (
-                    <p className="item_space">Khoảng cách: {distance}</p>
+                    <>
+                      <p className="item_space">Khoảng cách: {distance} km</p>
+                      <p className="item_space">Thời gian di chuyển: {formatDuration(distance/30)}</p>
+                    </>
                   ) : null}
                   <div>
                     <div className="schedule_item_right">
@@ -118,7 +133,7 @@ function Plan() {
                       <p className="name_place">{place_name}</p>
                       <p>Địa chỉ : {address}</p>
                       <p className="time_to_live">
-                        Thời gian tham quan: {duration}
+                        Thời gian lưu trú: {formatDuration(duration)}
                       </p>
                     </div>
                   </div>
