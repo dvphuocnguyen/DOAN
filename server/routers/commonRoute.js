@@ -18,6 +18,7 @@ const {
 } = require("../controllers/admin/placeController");
 //
 const { createSchedule, getSchedule, createScheduleForDays } = require("../controllers/common/schedule/scheduleController");
+const { createScheduleForDayss } = require("../controllers/common/schedule/scheduleControllers");
 
 //
 const categoryController = require("../controllers/categoryController");
@@ -58,7 +59,7 @@ router.get('/distance/:id1/:id2', getDistance);
 //schedule
 router.post("/create_schedule", createSchedule);
 router.get("/getSchedule", getSchedule);
-router.post('/schedules/days', createScheduleForDays);
+router.post('/schedules/days', createScheduleForDayss);
 
 ///tesst getalluser
 
